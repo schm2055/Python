@@ -1,2 +1,2 @@
 # Python
-Python Projects and Scripts
+Python Scripts
