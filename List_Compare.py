@@ -5,7 +5,7 @@ print'--------------------------------------------------------------------------
 print '                      COMPARE LISTS APPLICATION'
 print'---------------------------------------------------------------------------'
 print
-#Select D42 Document
+#Select First Document
 while True:
 	ctypes.windll.user32.MessageBoxA(0, 'Open the first .xlsx list', 'Open', 1)
 	list_one = easygui.fileopenbox()
@@ -19,7 +19,7 @@ active_sheet_1 = first_wb.get_sheet_names()[0]
 working_sheet_1 = first_wb.get_sheet_by_name(active_sheet_1) 
 first_list_description = raw_input('Enter the description of the first list\n')
 
-#Select Linear Document
+#Select Second Document
 while True:
 	ctypes.windll.user32.MessageBoxA(0, 'Open the second .xlsx list', 'Open', 1)
 	list_two = easygui.fileopenbox()
