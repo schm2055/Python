@@ -7,29 +7,31 @@ print'--------------------------------------------------------------------------
 print
 #Select D42 Document
 while True:
-	ctypes.windll.user32.MessageBoxA(0, 'Open the D42 Device List', 'Open', 1)
-	devices_d = easygui.fileopenbox()
+	ctypes.windll.user32.MessageBoxA(0, 'Open the first .xlsx list', 'Open', 1)
+	list_one = easygui.fileopenbox()
 	try:
-		devices_wb = load_workbook(filename = devices_d, use_iterators = True)
+		first_wb = load_workbook(filename = list_one, use_iterators = True)
 		break
 	except:
 		ctypes.windll.user32.MessageBoxA(0, 'Please enter a valid name', 'Import Error!', 1)
 		continue
-active_sheet_1 = devices_wb.get_sheet_names()[0]
-working_sheet_1 = devices_wb.get_sheet_by_name(active_sheet_1) 
+active_sheet_1 = first_wb.get_sheet_names()[0]
+working_sheet_1 = first_wb.get_sheet_by_name(active_sheet_1) 
+first_list_description = raw_input('Enter the description of the first list\n')
 
 #Select Linear Document
 while True:
-	ctypes.windll.user32.MessageBoxA(0, 'Open the Linear Device List', 'Open', 1)
-	devices_l = easygui.fileopenbox()
+	ctypes.windll.user32.MessageBoxA(0, 'Open the second .xlsx list', 'Open', 1)
+	list_two = easygui.fileopenbox()
 	try:
-		linear_wb = load_workbook(filename = devices_l, use_iterators = True)
+		second_wb = load_workbook(filename = list_two, use_iterators = True)
 		break
 	except:
 		ctypes.windll.user32.MessageBoxA(0, 'Please enter a valid name', 'Import Error!', 1)
 		continue
-active_sheet_2 = linear_wb.get_sheet_names()[0]
-working_sheet_2 = linear_wb.get_sheet_by_name(active_sheet_2) 
+active_sheet_2 = second_wb.get_sheet_names()[0]
+working_sheet_2 = second_wb.get_sheet_by_name(active_sheet_2) 
+second_list_description = raw_input('Enter the description of the second list\n')
 
 #Create txt document to write results
 
@@ -37,8 +39,8 @@ results_file = 'Comparison_Results.txt'
 results_fhand = open(results_file, 'w')
 
 #Run the list comparisons and write the results to the txt file
-print 'Checking for devices found in the Linear that were not found in D42...'
-results_fhand.write('Checking for devices found in the Linear that were not found in D42...\n\n')
+print 'Checking for devices found in the ' + second_list_description + ' list that were not found in ' + first_list_description + ' list ...'
+results_fhand.write('Checking for devices found in the ' + second_list_description + ' that were not found in ' + first_list_description+ ' list...\n\n')
 
 check_list_1 = list()
 for row in working_sheet_1:
@@ -55,12 +57,12 @@ for row in working_sheet_2:
 		else:
 			continue
 
-print 'Number of Devices from the Linear that are not in D42: ', count_1
-results_fhand.write('Number of Devices from the Linear that are not in D42: ' + str(count_1) + '\n\n')
+print 'Number of Devices from the ' + second_list_description+ ' list that are not in ' + first_list_description+ ' list: ', count_1
+results_fhand.write('Number of Devices from the ' + second_list_description + ' list that are not in ' + first_list_description + ' list: ' + str(count_1) + '\n\n')
 print
 
-print 'Checking for devices found in D42 that are not on the Linear Inventory...'
-results_fhand.write('Checking for devices found in D42 that are not on the Linear Inventory...\n\n')
+print 'Checking for devices found in the ' + first_list_description + ' list that were not found in the ' + second_list_description + ' list...'
+results_fhand.write('Checking for devices found in the ' + first_list_description + ' list that were not found in the ' + second_list_description + ' list ...\n\n')
 
 check_list_2 = list()
 for row in working_sheet_2:
@@ -76,7 +78,7 @@ for row in working_sheet_1:
 			count_2 += 1
 		else:
 			continue			
-print 'Number of devices from D42 that are not on the Linear Inventory: ', count_2
-results_fhand.write('Number of Devices from the Linear that are not in D42: ' + str(count_2) + '\n\n')
+print 'Number of devices from the ' + first_list_description + ' list that are not in the ' + second_list_description + ' list: ', count_2
+results_fhand.write('Number of Devices from the ' + second_list_description + ' list that are not in the ' + first_list_description + ' list: ' + str(count_2) + '\n\n')
 print
 print 'Application Complete!'
