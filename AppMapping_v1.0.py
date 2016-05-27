@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS Service_Instances(
 	User TEXT,
 	First_Detected TEXT,
 	Last_Updated TEXT,
-	Application_Services TEXT
+	Application_Services TEXT,
+	Name TEXT
 );
 ''')
 
@@ -121,4 +122,25 @@ for service in service_list:
 		continue
 	cur_db.execute("UPDATE Service_Instances SET Application_Services = ? WHERE Service = ?", (app_val, service, ))
 	conn_db.commit()
+	
+		
+print 'Services Associated Successfully!'
+
+#Add Additional Services Names for more efficient import into Device42
+cur_db.execute('''SELECT Service FROM Service_Instances''')
+service_list = [record[0] for record in cur_db.fetchall()]
+
+for service in service_list:
+	cur_db.execute("SELECT Name FROM Services WHERE Display_Name = ?", (service, ))
+	name_list = [record[0] for record in cur_db.fetchall()]
+	try:
+		name_val = name_list[0]
+	except:
+		continue
+	cur_db.execute("UPDATE Service_Instances SET Name = ? WHERE Service = ?", (name_val, service, ))
+	conn_db.commit()
+
+print 'Service Names added for import efficiency!'
+
+ctypes.windll.user32.MessageBoxA(0, 'Applications Mapped Successfully!', 'Success!', 1)
 
