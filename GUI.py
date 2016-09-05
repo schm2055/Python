@@ -26,8 +26,8 @@ class Window(QtGui.QMainWindow):
 		#Show
         self.show()
 	
-	def prtg(self):
-		webbrowser(url, 2)
+   def prtg(self):
+	webbrowser(url, 2)
         
 def run():
     app = QtGui.QApplication(sys.argv)
